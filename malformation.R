@@ -44,3 +44,9 @@ legend(5,0.8,c("Identity","Logit","Probit"),col=c(1,2,"blue"),lty=c(1,2,4),lwd=2
 
 sum((resid(malform.probit,type="pearson"))^2)
 
+# Residuals on logit
+residuals(malform.logit,type="pearson")
+residuals(malform.logit,type="pearson")/sqrt(1 - hatvalues(malform.logit))
+residuals(malform.logit,type="deviance")
+residuals(malform.logit,type="deviance")/sqrt(1 - hatvalues(malform.logit))
+rstandard(malform.logit)

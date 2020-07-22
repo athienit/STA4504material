@@ -1,8 +1,5 @@
-crabs=read.table("http://www.stat.ufl.edu/~dathien/STA6505/crabdata.txt", header=TRUE)
+crabs=read.table("http://users.stat.ufl.edu/~aa/cat/data/Crabs.dat", header=TRUE)
 attach(crabs)
-
-crabs$y=ifelse(satellite>0, 1, 0)  #  Y = a binary indicator of satellites
-crabs$weight=weight/1000  #  weight in kilograms rather than gramms
 
 ############## Part (I) 1 variable
 
@@ -39,8 +36,7 @@ lines(y ~ weight,type="p")
 ############### Part (II) variables (WEIGHT, COLOR)
  
 ###### A
-crabs$color=color - 1  #  color now takes values 1,2,3,4
-crabs$color=factor(color)  #  treat color as a factor
+crabs$color=factor(crabs$color, labels=c("ML","M","MD","D"))  #  treat color as a factor
 crabs$color=relevel(crabs$color,4) 
 fit2=glm(y ~ weight + color, family=binomial(link=logit),data=crabs)
 summary(fit2)
@@ -54,6 +50,8 @@ legend(3.5,.6,col=c(cols,"black"),lwd=2,legend=c("Medium Light", "Medium", "Medi
 
 # TEST WHETHER COLOR IS SIGNIFICANT
 1-pchisq(fit$deviance-fit2$deviance,fit$df.residual-fit2$df.residual)
+# or use 
+anova(fit2,fit,test="LRT")
 
 ###### B
 crabs$dark=ifelse(unclass(crabs$color)==4,1,0)
