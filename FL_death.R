@@ -11,4 +11,4 @@ summary(dp.fit1)
 exp(dp.fit1$coefficients[2])
 exp(dp.fit1$coefficients[2]+c(-1,1)*1.96*sqrt(vcov(dp.fit1)[2,2]))
 
-drop1(dp.fit1,test="Chisq")
+drop1(dp.fit1,test="LRT")

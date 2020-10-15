@@ -40,6 +40,7 @@ crabs$color=factor(crabs$color, labels=c("ML","M","MD","D"))  #  treat color as 
 crabs$color=relevel(crabs$color,4) 
 fit2=glm(y ~ weight + color, family=binomial(link=logit),data=crabs)
 summary(fit2)
+vcov(fit2)
 
 ## Plot of probabilities
 cols=rainbow(3)
@@ -119,6 +120,10 @@ legend(0.6,0.5,col=c(2,3,4,5),lwd=1,
 attach(crabs)
 color=factor(color)
 spine=factor(spine)
+
+fit.wewi=glm(y ~ weight+width, family=binomial(link=logit))
+vif(fit.wewi)
+
 fitnone=glm(y~1,family=binomial)
 fit.w=glm(y ~ width, family=binomial(link=logit))
 fit.wcs=glm(y ~ width*color*spine, family=binomial(link=logit))

@@ -81,6 +81,8 @@ round(rstandard(UCBnoG.logit),2) # standardized deviance
 UCBnoGA.logit=glm(cbind(Admit,Reject)~Dept,family=binomial(link=logit),data=berk,subset=(Dept!="A"))
 summary(UCBnoGA.logit)
 
+1-pchisq(UCBnoGA.logit$deviance,UCBnoGA.logit$df.residual)
+
 # Notice the goodness of fit G^2 is 2.6815 now and also the residuals are much better
 
 round(rstandard(UCBnoGA.logit,type="pearson"),2)# standardized pearson
