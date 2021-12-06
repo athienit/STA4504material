@@ -40,7 +40,13 @@ crabs$color=factor(crabs$color, labels=c("ML","M","MD","D"))  #  treat color as 
 crabs$color=relevel(crabs$color,4) 
 fit2=glm(y ~ weight + color, family=binomial(link=logit),data=crabs)
 summary(fit2)
-vcov(fit2)
+vc=vcov(fit2);vc
+
+# CI on pi for crab weight 2.4 color=dark
+logit_CI=sum(coefficients(fit2)*c(1,2.4,0,1,0))+c(-1,1)*1.96*sqrt(vc[1,1]+2.4^2*vc[2,2]+vc[4,4]+2*2.4*vc[1,2]+2*vc[1,4]+2*2.4*vc[2,4])
+plogis(logit_CI) #exp^(logit_CI)/(1+e^(logit_CI))
+logit_CI1=predict(fit2,newdata=data.frame(weight=2.4,color="M"),type="link",se.fit=T)
+plogis(logit_CI1$fit+c(-1,1)*1.96*logit_CI1$se.fit)
 
 ## Plot of probabilities
 cols=rainbow(3)
@@ -87,6 +93,13 @@ curve(exp(fit2.3$coefficients[1]+fit2.3$coefficients[2]*x+fit2.3$coefficients[3]
 for (i in 1:3)
 	curve(exp(fit2.3$coefficients[1]+fit2.3$coefficients[2]*x+fit2.3$coefficients[3]*i)/(1+exp(fit2.3$coefficients[1]+fit2.3$coefficients[2]*x+fit2.3$coefficients[3]*i)), from=1,to=5.5,lwd=2,col=cols[i],add=TRUE)
 legend(2.5,.3,col=c(cols,"black"),lwd=2,legend=c("Medium Light", "Medium", "Medium Dark","Dark"),bg = "light gray")
+
+
+###### D
+# Interaction term
+fit2.4=glm(y ~ weight*dark, family=binomial,data=crabs)
+summary(fit2.4)
+anova(fit2.4,fit2,test="LRT")
 
 ############### Part (III) Predictive Power
 cor(y,fitted(fit)) #weight

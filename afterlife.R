@@ -14,3 +14,6 @@ BR=glm(count~Belief*Race,family=poisson(link=log),data=after)
 summary(BR)
 
 anova(B_R,BR,test="Chisq")
+
+# Dissimilarity Index
+sum(abs(after$count-fitted(B_R)))/(2*sum(after$count))
