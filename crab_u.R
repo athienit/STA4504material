@@ -135,11 +135,12 @@ color=factor(color)
 spine=factor(spine)
 
 fit.wewi=glm(y ~ weight+width, family=binomial(link=logit))
-vif(fit.wewi)
+library(car)
+sqrt(vif(fit.wewi))
 
 fitnone=glm(y~1,family=binomial)
-fit.w=glm(y ~ width, family=binomial(link=logit))
-fit.wcs=glm(y ~ width*color*spine, family=binomial(link=logit))
+fit.wi=glm(y ~ width, family=binomial)
+fit.wcs=glm(y ~ width*color*spine, family=binomial)
 summary(fit.wcs)
 
 fit.wc_ws_cs=update(fit.wcs,.~.-width:color:spine) #remove 3 way interaction since too complicated
@@ -155,8 +156,9 @@ stepAIC(fit.wc_ws_cs,scope=list(upper=~width*color+width*spine+color*spine,lower
 
 #forward
 add1(fit.w,scope=~width*color*spine,test="LRT") #iterate this one, keep adding
-stepAIC(fit.w,scope=list(upper=~width*color+width*spine+color*spine,lower=~1),direction="forward")
+stepAIC(fit.wi,scope=list(upper=~width*color+width*spine+color*spine,lower=~1),direction="forward")
 
 #both
-stepAIC(fit.w,scope=list(upper=~width*color+width*spine+color*spine,lower=~1),direction="both")
+stepAIC(fit.wi,scope=list(upper=~width*color+width*spine+color*spine,lower=~1),direction="both")
+stepAIC(fit.wi,scope=list(upper=~width*dark+width*spine+dark*spine,lower=~1),direction="both")
         
