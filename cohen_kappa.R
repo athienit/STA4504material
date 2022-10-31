@@ -5,6 +5,7 @@ print(movie)
 library(psych)
 cohen.kappa(movie)
 sqrt(cohen.kappa(movie)$var.kappa)
+sqrt(cohen.kappa(movie)$var.weighted)
 
 cohen.kappa(movie)$weight
 
