@@ -1,10 +1,11 @@
-crabs=read.table("http://users.stat.ufl.edu/~aa/cat/data/Crabs.dat", header=TRUE)
+crabs=read.table("https://raw.githubusercontent.com/alanagresti/categorical-data/master/Crabs.dat", header=TRUE)
 attach(crabs)
 
 ############## Part (I) 1 variable
 
 fit=glm(y ~ weight, family=binomial(link=logit),data=crabs)
 summary(fit)
+
 
 # Can create Wald CI for beta by 
 beta_h=coef(fit)[2]
